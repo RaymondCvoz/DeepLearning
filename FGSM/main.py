@@ -7,10 +7,6 @@ from torchvision import datasets, transforms
 import numpy as np
 import matplotlib.pyplot as plt
 
-from six.moves import urllib
-opener = urllib.request.build_opener()
-opener.addheaders = [('User-agent', 'Mozilla/5.0')]
-urllib.request.install_opener(opener)
 
 epsilons = [0, .05, .1, .15, .2, .25, .3]
 pretrained_model = "data/lenet_mnist_model.pth"
@@ -126,7 +122,7 @@ for i in range(len(epsilons)):
         plt.xticks([], [])
         plt.yticks([], [])
         if j == 0:
-            plt.ylabel("Eps: {}".format(epsilons[i]), fontsize=14)
+            plt.ylabel("Eps: {}".format(epsilons[i]), fontsize=10)
         orig,adv,ex = examples[i][j]
         plt.title("{} -> {}".format(orig, adv))
         plt.imshow(ex, cmap="gray")
