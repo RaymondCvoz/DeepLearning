@@ -1,23 +1,26 @@
 from math import log
-    
+import pandas as pd
 # 构造数据集
 def create_dataset():
-    dataset = [['youth', 'no', 'no', 'just so-so', 'no'],
-               ['youth', 'no', 'no', 'good', 'no'],
-               ['youth', 'yes', 'no', 'good', 'yes'],
-               ['youth', 'yes', 'yes', 'just so-so', 'yes'],
-               ['youth', 'no', 'no', 'just so-so', 'no'],
-               ['midlife', 'no', 'no', 'just so-so', 'no'],
-               ['midlife', 'no', 'no', 'good', 'no'],
-               ['midlife', 'yes', 'yes', 'good', 'yes'],
-               ['midlife', 'no', 'yes', 'great', 'yes'],
-               ['midlife', 'no', 'yes', 'great', 'yes'],
-               ['geriatric', 'no', 'yes', 'great', 'yes'],
-               ['geriatric', 'no', 'yes', 'good', 'yes'],
-               ['geriatric', 'yes', 'no', 'good', 'yes'],
-               ['geriatric', 'yes', 'no', 'great', 'yes'],
-               ['geriatric', 'no', 'no', 'just so-so', 'no']]
-    features = ['age', 'work', 'house', 'credit']
+    # dataset = [['youth', 'no', 'no', 'just so-so', 'no'],
+    #            ['youth', 'no', 'no', 'good', 'no'],
+    #            ['youth', 'yes', 'no', 'good', 'yes'],
+    #            ['youth', 'yes', 'yes', 'just so-so', 'yes'],
+    #            ['youth', 'no', 'no', 'just so-so', 'no'],
+    #            ['midlife', 'no', 'no', 'just so-so', 'no'],
+    #            ['midlife', 'no', 'no', 'good', 'no'],
+    #            ['midlife', 'yes', 'yes', 'good', 'yes'],
+    #            ['midlife', 'no', 'yes', 'great', 'yes'],
+    #            ['midlife', 'no', 'yes', 'great', 'yes'],
+    #            ['geriatric', 'no', 'yes', 'great', 'yes'],
+    #            ['geriatric', 'no', 'yes', 'good', 'yes'],
+    #            ['geriatric', 'yes', 'no', 'good', 'yes'],
+    #            ['geriatric', 'yes', 'no', 'great', 'yes'],
+    #            ['geriatric', 'no', 'no', 'just so-so', 'no']]
+    # features = ['age', 'work', 'house', 'credit']
+    df = pd.read_csv('H:\RC\DeepLearning\Decision Tree\data\car.data')
+    dataset = df.values.tolist()
+    features = ['buying','maint','doors','persons','lug_boot','safety']
     return dataset, features
 
 # 计算信息熵
@@ -168,6 +171,6 @@ if __name__ == '__main__':
     # 打印生成的决策树
     print(decision_tree)
     # 对新样本进行分类测试
-    features = ['age', 'work', 'house', 'credit']
-    test_example = ['midlife', 'yes', 'no', 'great']
+    features = ['buying','maint','doors','persons','lug_boot','safety']
+    test_example = ['vhigh','vhigh','2','2','small','high']
     print('\n',classify(decision_tree, features, test_example))
