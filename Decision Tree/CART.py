@@ -1,3 +1,4 @@
+# coding=gbk
 from math import log
     
 # 构造数据集
