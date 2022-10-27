@@ -1,16 +1,8 @@
 import pandas as pd
 
-df = pd.read_csv('./data/car.data')
+df = pd.read_csv('H:\RC\DeepLearning\DecisionTree\data\car_copy.data')
+dataset = df.values.tolist()
 
-i = 0
-for index,series in df.iterrows():
-    i += 1
-    print(index,end='\n')
-    print(series)
-    if i == 1:
-        break
-    
+fp = open('H:\\RC\\DeepLearning\\DecisionTree\\tmp.out','w')
 
-dflist = df.values.tolist()
-
-print(dflist)
+print(dataset,file=fp)

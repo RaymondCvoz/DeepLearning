@@ -1,50 +1,69 @@
-# coding=gbk
 from math import log
-    
-# ¹¹ÔìÊı¾İ¼¯
+import pandas as pd
+import logging as lg
+# æ„é€ æ•°æ®é›†
 def create_dataset():
-    dataset = [['youth', 'no', 'no', 'just so-so', 'no'],
-               ['youth', 'no', 'no', 'good', 'no'],
-               ['youth', 'yes', 'no', 'good', 'yes'],
-               ['youth', 'yes', 'yes', 'just so-so', 'yes'],
-               ['youth', 'no', 'no', 'just so-so', 'no'],
-               ['midlife', 'no', 'no', 'just so-so', 'no'],
-               ['midlife', 'no', 'no', 'good', 'no'],
-               ['midlife', 'yes', 'yes', 'good', 'yes'],
-               ['midlife', 'no', 'yes', 'great', 'yes'],
-               ['midlife', 'no', 'yes', 'great', 'yes'],
-               ['geriatric', 'no', 'yes', 'great', 'yes'],
-               ['geriatric', 'no', 'yes', 'good', 'yes'],
-               ['geriatric', 'yes', 'no', 'good', 'yes'],
-               ['geriatric', 'yes', 'no', 'great', 'yes'],
-               ['geriatric', 'no', 'no', 'just so-so', 'no']]
-    features = ['age', 'work', 'house', 'credit']
+    # dataset = [['youth', 'no', 'no', 'just so-so', 'no'],
+    #            ['youth', 'no', 'no', 'good', 'no'],
+    #            ['youth', 'yes', 'no', 'good', 'yes'],
+    #            ['youth', 'yes', 'yes', 'just so-so', 'yes'],
+    #            ['youth', 'no', 'no', 'just so-so', 'no'],
+    #            ['midlife', 'no', 'no', 'just so-so', 'no'],
+    #            ['midlife', 'no', 'no', 'good', 'no'],
+    #            ['midlife', 'yes', 'yes', 'good', 'yes'],
+    #            ['midlife', 'no', 'yes', 'great', 'yes'],
+    #            ['midlife', 'no', 'yes', 'great', 'yes'],
+    #            ['geriatric', 'no', 'yes', 'great', 'yes'],
+    #            ['geriatric', 'no', 'yes', 'good', 'yes'],
+    #            ['geriatric', 'yes', 'no', 'good', 'yes'],
+    #            ['geriatric', 'yes', 'no', 'great', 'yes'],
+    #            ['geriatric', 'no', 'no', 'just so-so', 'no']]
+    # features = ['age', 'work', 'house', 'credit']
+    
+    
+    # dataset = [['vhigh','vhigh','2','2','small','low','unacc'],
+    #            ['vhigh','vhigh','2','2','small','med','unacc'],
+    #            ['vhigh','vhigh','2','2','small','high','unacc'],
+    #            ['vhigh','vhigh','2','2','med','low','unacc'],
+    #            ['vhigh','vhigh','2','2','med','med','unacc'],
+    #            ['vhigh','low','4','4','big','med','acc'],
+    #            ['vhigh','low','4','4','big','high','acc'],
+    #            ['vhigh','low','4','more','small','low','unacc'],
+    #            ['vhigh','low','4','more','med','med','acc'],
+    #            ['vhigh','low','4','more','big','high','acc'],
+    #            ['vhigh','low','5more','4','big','med','acc'],
+    #            ['vhigh','low','5more','more','med','low','unacc'],
+    #            ['vhigh','low','5more','more','big','high','acc']]
+    #features = ['age', 'work', 'house', 'credit']
+    df = pd.read_csv('H:\RC\DeepLearning\DecisionTree\data\letter-recognition.data')
+    dataset = df.values.tolist()
+    features = ['lettr','x-box','y-box','width','high','onpix','x-bar','y-bar','x2bar','y2bar','xybar','x2ybr','xy2br','x-ege','xegvy','y-ege','yegvx']
     return dataset, features
 
-# ¼ÆËãµ±Ç°¼¯ºÏµÄGiniÏµÊı
+# è®¡ç®—å½“å‰é›†åˆçš„Giniç³»æ•°
 def calcGini(dataset):
-    # Çó×ÜÑù±¾Êı
+    # æ±‚æ€»æ ·æœ¬æ•°
     num_of_examples = len(dataset)
     labelCnt = {}
-    # ±éÀúÕû¸öÑù±¾¼¯ºÏ
+    # éå†æ•´ä¸ªæ ·æœ¬é›†åˆ
     for example in dataset:
-        # µ±Ç°Ñù±¾µÄ±êÇ©ÖµÊÇ¸ÃÁĞ±íµÄ×îºóÒ»¸öÔªËØ
-        currentLabel = example[-1]
-        # Í³¼ÆÃ¿¸ö±êÇ©¸÷³öÏÖÁË¼¸´Î
+        # å½“å‰æ ·æœ¬çš„æ ‡ç­¾å€¼æ˜¯è¯¥åˆ—è¡¨çš„æœ€åä¸€ä¸ªå…ƒç´ 
+        currentLabel = example[0]
+        # ç»Ÿè®¡æ¯ä¸ªæ ‡ç­¾å„å‡ºç°äº†å‡ æ¬¡
         if currentLabel not in labelCnt.keys():
             labelCnt[currentLabel] = 0
         labelCnt[currentLabel] += 1
-    # µÃµ½ÁËµ±Ç°¼¯ºÏÖĞÃ¿¸ö±êÇ©µÄÑù±¾¸öÊıºó£¬¼ÆËãËüÃÇµÄpÖµ
+    # å¾—åˆ°äº†å½“å‰é›†åˆä¸­æ¯ä¸ªæ ‡ç­¾çš„æ ·æœ¬ä¸ªæ•°åï¼Œè®¡ç®—å®ƒä»¬çš„på€¼
     for key in labelCnt:
         labelCnt[key] /= num_of_examples
         labelCnt[key] = labelCnt[key] * labelCnt[key]
-    # ¼ÆËãGiniÏµÊı
+    # è®¡ç®—Giniç³»æ•°
     Gini = 1 - sum(labelCnt.values())
     return Gini
     
-# ÌáÈ¡×Ó¼¯ºÏ
-# ¹¦ÄÜ£º´ÓdataSetÖĞÏÈÕÒµ½ËùÓĞµÚaxis¸ö±êÇ©Öµ = valueµÄÑù±¾
-# È»ºó½«ÕâĞ©Ñù±¾É¾È¥µÚaxis¸ö±êÇ©Öµ£¬ÔÙÈ«²¿ÌáÈ¡³öÀ´³ÉÎªÒ»¸öĞÂµÄÑù±¾¼¯
+# æå–å­é›†åˆ
+# åŠŸèƒ½ï¼šä»dataSetä¸­å…ˆæ‰¾åˆ°æ‰€æœ‰ç¬¬axisä¸ªæ ‡ç­¾å€¼ = valueçš„æ ·æœ¬
+# ç„¶åå°†è¿™äº›æ ·æœ¬åˆ å»ç¬¬axisä¸ªæ ‡ç­¾å€¼ï¼Œå†å…¨éƒ¨æå–å‡ºæ¥æˆä¸ºä¸€ä¸ªæ–°çš„æ ·æœ¬é›†
 def create_sub_dataset(dataset, index, value):
     sub_dataset = []
     for example in dataset:
@@ -55,7 +74,7 @@ def create_sub_dataset(dataset, index, value):
             sub_dataset.append(current_list)
     return sub_dataset
 
-# ½«µ±Ç°Ñù±¾¼¯·Ö¸î³ÉÌØÕ÷iÈ¡ÖµÎªvalueµÄÒ»²¿·ÖºÍÈ¡Öµ²»ÎªvalueµÄÒ»²¿·Ö£¨¶ş·Ö£©
+# å°†å½“å‰æ ·æœ¬é›†åˆ†å‰²æˆç‰¹å¾iå–å€¼ä¸ºvalueçš„ä¸€éƒ¨åˆ†å’Œå–å€¼ä¸ä¸ºvalueçš„ä¸€éƒ¨åˆ†ï¼ˆäºŒåˆ†ï¼‰
 def split_dataset(dataset, index, value):
     sub_dataset1 = []
     sub_dataset2 = []
@@ -72,119 +91,122 @@ def split_dataset(dataset, index, value):
     return sub_dataset1, sub_dataset2
 
 def choose_best_feature(dataset):
-    # ÌØÕ÷×ÜÊı
+    # ç‰¹å¾æ€»æ•°
     numFeatures = len(dataset[0]) - 1
-    # µ±Ö»ÓĞÒ»¸öÌØÕ÷Ê±
+    # å½“åªæœ‰ä¸€ä¸ªç‰¹å¾æ—¶
     if numFeatures == 1:
         return 0
-    # ³õÊ¼»¯×î¼Ñ»ùÄáÏµÊı
+    # åˆå§‹åŒ–æœ€ä½³åŸºå°¼ç³»æ•°
     bestGini = 1
-    # ³õÊ¼»¯×îÓÅÌØÕ÷
+    # åˆå§‹åŒ–æœ€ä¼˜ç‰¹å¾
     index_of_best_feature = -1
-    # ±éÀúËùÓĞÌØÕ÷£¬Ñ°ÕÒ×îÓÅÌØÕ÷ºÍ¸ÃÌØÕ÷ÏÂµÄ×îÓÅÇĞ·Öµã
+    # éå†æ‰€æœ‰ç‰¹å¾ï¼Œå¯»æ‰¾æœ€ä¼˜ç‰¹å¾å’Œè¯¥ç‰¹å¾ä¸‹çš„æœ€ä¼˜åˆ‡åˆ†ç‚¹
     for i in range(numFeatures):
-        # È¥ÖØ£¬Ã¿¸öÊôĞÔÖµÎ¨Ò»
+        # å»é‡ï¼Œæ¯ä¸ªå±æ€§å€¼å”¯ä¸€
         uniqueVals = set(example[i] for example in dataset)
-        # Gini×ÖµäÖĞµÄÃ¿¸öÖµ´ú±íÒÔ¸ÃÖµ¶ÔÓ¦µÄ¼ü×÷ÎªÇĞ·Öµã¶Ôµ±Ç°¼¯ºÏ½øĞĞ»®·ÖºóµÄGiniÏµÊı
+        # Giniå­—å…¸ä¸­çš„æ¯ä¸ªå€¼ä»£è¡¨ä»¥è¯¥å€¼å¯¹åº”çš„é”®ä½œä¸ºåˆ‡åˆ†ç‚¹å¯¹å½“å‰é›†åˆè¿›è¡Œåˆ’åˆ†åçš„Giniç³»æ•°
         Gini = {}
-        # ¶ÔÓÚµ±Ç°ÌØÕ÷µÄÃ¿¸öÈ¡Öµ
+        # å¯¹äºå½“å‰ç‰¹å¾çš„æ¯ä¸ªå–å€¼
         for value in uniqueVals:
-            # ÏÈÇóÓÉ¸ÃÖµ½øĞĞ»®·ÖµÃµ½µÄÁ½¸ö×Ó¼¯
+            # å…ˆæ±‚ç”±è¯¥å€¼è¿›è¡Œåˆ’åˆ†å¾—åˆ°çš„ä¸¤ä¸ªå­é›†
             sub_dataset1, sub_dataset2 = split_dataset(dataset,i,value)
-            # ÇóÁ½¸ö×Ó¼¯Õ¼Ô­¼¯ºÏµÄ±ÈÀıÏµÊıprob1 prob2
+            # æ±‚ä¸¤ä¸ªå­é›†å åŸé›†åˆçš„æ¯”ä¾‹ç³»æ•°prob1 prob2
             prob1 = len(sub_dataset1) / float(len(dataset))
             prob2 = len(sub_dataset2) / float(len(dataset))
-            # ¼ÆËã×Ó¼¯1µÄGiniÏµÊı
+            # è®¡ç®—å­é›†1çš„Giniç³»æ•°
             Gini_of_sub_dataset1 = calcGini(sub_dataset1)
-            # ¼ÆËã×Ó¼¯2µÄGiniÏµÊı
+            # è®¡ç®—å­é›†2çš„Giniç³»æ•°
             Gini_of_sub_dataset2 = calcGini(sub_dataset2)
-            # ¼ÆËãÓÉµ±Ç°×îÓÅÇĞ·Öµã»®·ÖºóµÄ×îÖÕGiniÏµÊı
+            # è®¡ç®—ç”±å½“å‰æœ€ä¼˜åˆ‡åˆ†ç‚¹åˆ’åˆ†åçš„æœ€ç»ˆGiniç³»æ•°
             Gini[value] = prob1 * Gini_of_sub_dataset1 + prob2 * Gini_of_sub_dataset2
-            # ¸üĞÂ×îÓÅÌØÕ÷ºÍ×îÓÅÇĞ·Öµã
+            # æ›´æ–°æœ€ä¼˜ç‰¹å¾å’Œæœ€ä¼˜åˆ‡åˆ†ç‚¹
             if Gini[value] < bestGini:
                 bestGini = Gini[value]
                 index_of_best_feature = i
                 best_split_point = value
+                
+    lg.warning('index of best feature : {}'.format(index_of_best_feature))
+    lg.warning('best split point : {}'.format(best_split_point))
     return index_of_best_feature, best_split_point
     
-# ·µ»Ø¾ßÓĞ×î¶àÑù±¾ÊıµÄÄÇ¸ö±êÇ©µÄÖµ£¨'yes' or 'no'£©
+# è¿”å›å…·æœ‰æœ€å¤šæ ·æœ¬æ•°çš„é‚£ä¸ªæ ‡ç­¾çš„å€¼ï¼ˆ'yes' or 'no'ï¼‰
 def find_label(classList):
-    # ³õÊ¼»¯Í³¼Æ¸÷±êÇ©´ÎÊıµÄ×Öµä
-    # ¼üÎª¸÷±êÇ©£¬¶ÔÓ¦µÄÖµÎª±êÇ©³öÏÖµÄ´ÎÊı
+    # åˆå§‹åŒ–ç»Ÿè®¡å„æ ‡ç­¾æ¬¡æ•°çš„å­—å…¸
+    # é”®ä¸ºå„æ ‡ç­¾ï¼Œå¯¹åº”çš„å€¼ä¸ºæ ‡ç­¾å‡ºç°çš„æ¬¡æ•°
     labelCnt = {}
     for key in classList:
         if key not in labelCnt.keys():
             labelCnt[key] = 0
         labelCnt[key] += 1
-    # ½«classCount°´Öµ½µĞòÅÅÁĞ
-    # ÀıÈç£ºsorted_labelCnt = {'yes': 9, 'no': 6}
+    # å°†classCountæŒ‰å€¼é™åºæ’åˆ—
+    # ä¾‹å¦‚ï¼šsorted_labelCnt = {'yes': 9, 'no': 6}
     sorted_labelCnt = sorted(labelCnt.items(), key = lambda a:a[1], reverse = True)
-    # ÏÂÃæÕâÖÖĞ´·¨ÓĞÎÊÌâ
+    # ä¸‹é¢è¿™ç§å†™æ³•æœ‰é—®é¢˜
     # sortedClassCount = sorted(labelCnt.iteritems(), key=operator.itemgetter(1), reverse=True)
-    # È¡sorted_labelCntÖĞµÚÒ»¸öÔªËØÖĞµÄµÚÒ»¸öÖµ£¬¼´ÎªËùÇó
+    # å–sorted_labelCntä¸­ç¬¬ä¸€ä¸ªå…ƒç´ ä¸­çš„ç¬¬ä¸€ä¸ªå€¼ï¼Œå³ä¸ºæ‰€æ±‚
     return sorted_labelCnt[0][0]
     
     
 def create_decision_tree(dataset, features):
-    # Çó³öÑµÁ·¼¯ËùÓĞÑù±¾µÄ±êÇ©
-    # ¶ÔÓÚ³õÊ¼Êı¾İ¼¯£¬Æälabel_list = ['no', 'no', 'yes', 'yes', 'no', 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no']
+    # æ±‚å‡ºè®­ç»ƒé›†æ‰€æœ‰æ ·æœ¬çš„æ ‡ç­¾
+    # å¯¹äºåˆå§‹æ•°æ®é›†ï¼Œå…¶label_list = ['no', 'no', 'yes', 'yes', 'no', 'no', 'no', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'yes', 'no']
     label_list = [example[-1] for example in dataset]
-    # ÏÈĞ´Á½¸öµİ¹é½áÊøµÄÇé¿ö£º
-    # Èôµ±Ç°¼¯ºÏµÄËùÓĞÑù±¾±êÇ©ÏàµÈ£¨¼´Ñù±¾ÒÑ±»·Ö¡°´¿¡±£©
-    # ÔòÖ±½Ó·µ»Ø¸Ã±êÇ©Öµ×÷ÎªÒ»¸öÒ¶×Ó½Úµã
+    # å…ˆå†™ä¸¤ä¸ªé€’å½’ç»“æŸçš„æƒ…å†µï¼š
+    # è‹¥å½“å‰é›†åˆçš„æ‰€æœ‰æ ·æœ¬æ ‡ç­¾ç›¸ç­‰ï¼ˆå³æ ·æœ¬å·²è¢«åˆ†â€œçº¯â€ï¼‰
+    # åˆ™ç›´æ¥è¿”å›è¯¥æ ‡ç­¾å€¼ä½œä¸ºä¸€ä¸ªå¶å­èŠ‚ç‚¹
     if label_list.count(label_list[0]) == len(label_list):
         return label_list[0]
-    # ÈôÑµÁ·¼¯µÄËùÓĞÌØÕ÷¶¼±»Ê¹ÓÃÍê±Ï£¬µ±Ç°ÎŞ¿ÉÓÃÌØÕ÷£¬µ«Ñù±¾ÈÔÎ´±»·Ö¡°´¿¡±
-    # Ôò·µ»ØËùº¬Ñù±¾×î¶àµÄ±êÇ©×÷Îª½á¹û
+    # è‹¥è®­ç»ƒé›†çš„æ‰€æœ‰ç‰¹å¾éƒ½è¢«ä½¿ç”¨å®Œæ¯•ï¼Œå½“å‰æ— å¯ç”¨ç‰¹å¾ï¼Œä½†æ ·æœ¬ä»æœªè¢«åˆ†â€œçº¯â€
+    # åˆ™è¿”å›æ‰€å«æ ·æœ¬æœ€å¤šçš„æ ‡ç­¾ä½œä¸ºç»“æœ
     if len(dataset[0]) == 1:
         return find_label(label_list)
-    # ÏÂÃæÊÇÕıÊ½½¨Ê÷µÄ¹ı³Ì
-    # Ñ¡È¡½øĞĞ·ÖÖ§µÄ×î¼ÑÌØÕ÷µÄÏÂ±êºÍ×î¼ÑÇĞ·Öµã
+    # ä¸‹é¢æ˜¯æ­£å¼å»ºæ ‘çš„è¿‡ç¨‹
+    # é€‰å–è¿›è¡Œåˆ†æ”¯çš„æœ€ä½³ç‰¹å¾çš„ä¸‹æ ‡å’Œæœ€ä½³åˆ‡åˆ†ç‚¹
     index_of_best_feature, best_split_point = choose_best_feature(dataset)
-    # µÃµ½×î¼ÑÌØÕ÷
+    # å¾—åˆ°æœ€ä½³ç‰¹å¾
     best_feature = features[index_of_best_feature]
-    # ³õÊ¼»¯¾ö²ßÊ÷
+    # åˆå§‹åŒ–å†³ç­–æ ‘
     decision_tree = {best_feature: {}}
-    # Ê¹ÓÃ¹ıµ±Ç°×î¼ÑÌØÕ÷ºó½«ÆäÉ¾È¥
+    # ä½¿ç”¨è¿‡å½“å‰æœ€ä½³ç‰¹å¾åå°†å…¶åˆ å»
     del(features[index_of_best_feature])
-    # ×ÓÌØÕ÷ = µ±Ç°ÌØÕ÷£¨ÒòÎª¸Õ²ÅÒÑ¾­É¾È¥ÁËÓÃ¹ıµÄÌØÕ÷£©
+    # å­ç‰¹å¾ = å½“å‰ç‰¹å¾ï¼ˆå› ä¸ºåˆšæ‰å·²ç»åˆ å»äº†ç”¨è¿‡çš„ç‰¹å¾ï¼‰
     sub_labels = features[:]
-    # µİ¹éµ÷ÓÃcreate_decision_treeÈ¥Éú³ÉĞÂ½Úµã
-    # Éú³ÉÓÉ×îÓÅÇĞ·Öµã»®·Ö³öÀ´µÄ¶ş·Ö×Ó¼¯
+    # é€’å½’è°ƒç”¨create_decision_treeå»ç”Ÿæˆæ–°èŠ‚ç‚¹
+    # ç”Ÿæˆç”±æœ€ä¼˜åˆ‡åˆ†ç‚¹åˆ’åˆ†å‡ºæ¥çš„äºŒåˆ†å­é›†
     sub_dataset1, sub_dataset2 = split_dataset(dataset,index_of_best_feature,best_split_point)
-    # ¹¹Ôì×ó×ÓÊ÷
+    # æ„é€ å·¦å­æ ‘
     decision_tree[best_feature][best_split_point] = create_decision_tree(sub_dataset1, sub_labels)
-    # ¹¹ÔìÓÒ×ÓÊ÷
+    # æ„é€ å³å­æ ‘
     decision_tree[best_feature]['others'] = create_decision_tree(sub_dataset2, sub_labels)
     return decision_tree
     
-# ÓÃÉÏÃæÑµÁ·ºÃµÄ¾ö²ßÊ÷¶ÔĞÂÑù±¾·ÖÀà
+# ç”¨ä¸Šé¢è®­ç»ƒå¥½çš„å†³ç­–æ ‘å¯¹æ–°æ ·æœ¬åˆ†ç±»
 def classify(decision_tree, features, test_example):
-    # ¸ù½Úµã´ú±íµÄÊôĞÔ
+    # æ ¹èŠ‚ç‚¹ä»£è¡¨çš„å±æ€§
     first_feature = list(decision_tree.keys())[0]
-    # second_dictÊÇµÚÒ»¸ö·ÖÀàÊôĞÔµÄÖµ£¨Ò²ÊÇ×Öµä£©
+    # second_dictæ˜¯ç¬¬ä¸€ä¸ªåˆ†ç±»å±æ€§çš„å€¼ï¼ˆä¹Ÿæ˜¯å­—å…¸ï¼‰
     second_dict = decision_tree[first_feature]
-    # Ê÷¸ù´ú±íµÄÊôĞÔ£¬ËùÔÚÊôĞÔ±êÇ©ÖĞµÄÎ»ÖÃ£¬¼´µÚ¼¸¸öÊôĞÔ
+    # æ ‘æ ¹ä»£è¡¨çš„å±æ€§ï¼Œæ‰€åœ¨å±æ€§æ ‡ç­¾ä¸­çš„ä½ç½®ï¼Œå³ç¬¬å‡ ä¸ªå±æ€§
     index_of_first_feature = features.index(first_feature)
-    # ¶ÔÓÚsecond_dictÖĞµÄÃ¿Ò»¸ökey
+    # å¯¹äºsecond_dictä¸­çš„æ¯ä¸€ä¸ªkey
     for key in second_dict.keys():
-        # ²»µÈÓÚ'others'µÄkey
+        # ä¸ç­‰äº'others'çš„key
         if key != 'others':
             if test_example[index_of_first_feature] == key:
-            # Èôµ±Ç°second_dictµÄkeyµÄvalueÊÇÒ»¸ö×Öµä
+            # è‹¥å½“å‰second_dictçš„keyçš„valueæ˜¯ä¸€ä¸ªå­—å…¸
                 if type(second_dict[key]).__name__ == 'dict':
-                    # ÔòĞèÒªµİ¹é²éÑ¯
+                    # åˆ™éœ€è¦é€’å½’æŸ¥è¯¢
                     classLabel = classify(second_dict[key], features, test_example)
-                # Èôµ±Ç°second_dictµÄkeyµÄvalueÊÇÒ»¸öµ¥¶ÀµÄÖµ
+                # è‹¥å½“å‰second_dictçš„keyçš„valueæ˜¯ä¸€ä¸ªå•ç‹¬çš„å€¼
                 else:
-                    # Ôò¾ÍÊÇÒªÕÒµÄ±êÇ©Öµ
+                    # åˆ™å°±æ˜¯è¦æ‰¾çš„æ ‡ç­¾å€¼
                     classLabel = second_dict[key]
-            # Èç¹û²âÊÔÑù±¾ÔÚµ±Ç°ÌØÕ÷µÄÈ¡Öµ²»µÈÓÚkey£¬¾ÍËµÃ÷ËüÔÚµ±Ç°ÌØÕ÷µÄÈ¡ÖµÊôÓÚ'others'
+            # å¦‚æœæµ‹è¯•æ ·æœ¬åœ¨å½“å‰ç‰¹å¾çš„å–å€¼ä¸ç­‰äºkeyï¼Œå°±è¯´æ˜å®ƒåœ¨å½“å‰ç‰¹å¾çš„å–å€¼å±äº'others'
             else:
-                # Èç¹ûsecond_dict['others']µÄÖµÊÇ¸ö×Ö·û´®£¬ÔòÖ±½ÓÊä³ö
+                # å¦‚æœsecond_dict['others']çš„å€¼æ˜¯ä¸ªå­—ç¬¦ä¸²ï¼Œåˆ™ç›´æ¥è¾“å‡º
                 if isinstance(second_dict['others'],str):
                     classLabel = second_dict['others']
-                # Èç¹ûsecond_dict['others']µÄÖµÊÇ¸ö×Öµä£¬Ôòµİ¹é²éÑ¯
+                # å¦‚æœsecond_dict['others']çš„å€¼æ˜¯ä¸ªå­—å…¸ï¼Œåˆ™é€’å½’æŸ¥è¯¢
                 else:
                     classLabel = classify(second_dict['others'], features, test_example)
     return classLabel
@@ -192,9 +214,9 @@ def classify(decision_tree, features, test_example):
 if __name__ == '__main__':
     dataset, features = create_dataset()
     decision_tree = create_decision_tree(dataset, features)
-    # ´òÓ¡Éú³ÉµÄ¾ö²ßÊ÷
+    # æ‰“å°ç”Ÿæˆçš„å†³ç­–æ ‘
     print(decision_tree)
-    # ¶ÔĞÂÑù±¾½øĞĞ·ÖÀà²âÊÔ
-    features = ['age', 'work', 'house', 'credit']
-    test_example = ['midlife', 'yes', 'no', 'great']
-    print(classify(decision_tree, features, test_example))
+    # å¯¹æ–°æ ·æœ¬è¿›è¡Œåˆ†ç±»æµ‹è¯•
+    # features = ['age', 'work', 'house', 'credit']
+    # test_example = ['midlife', 'yes', 'no', 'great']
+    # print(classify(decision_tree, features, test_example))

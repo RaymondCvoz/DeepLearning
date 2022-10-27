@@ -2,23 +2,7 @@ from math import log
 import pandas as pd
 # 构造数据集
 def create_dataset():
-    # dataset = [['youth', 'no', 'no', 'just so-so', 'no'],
-    #            ['youth', 'no', 'no', 'good', 'no'],
-    #            ['youth', 'yes', 'no', 'good', 'yes'],
-    #            ['youth', 'yes', 'yes', 'just so-so', 'yes'],
-    #            ['youth', 'no', 'no', 'just so-so', 'no'],
-    #            ['midlife', 'no', 'no', 'just so-so', 'no'],
-    #            ['midlife', 'no', 'no', 'good', 'no'],
-    #            ['midlife', 'yes', 'yes', 'good', 'yes'],
-    #            ['midlife', 'no', 'yes', 'great', 'yes'],
-    #            ['midlife', 'no', 'yes', 'great', 'yes'],
-    #            ['geriatric', 'no', 'yes', 'great', 'yes'],
-    #            ['geriatric', 'no', 'yes', 'good', 'yes'],
-    #            ['geriatric', 'yes', 'no', 'good', 'yes'],
-    #            ['geriatric', 'yes', 'no', 'great', 'yes'],
-    #            ['geriatric', 'no', 'no', 'just so-so', 'no']]
-    # features = ['age', 'work', 'house', 'credit']
-    df = pd.read_csv('H:\RC\DeepLearning\Decision Tree\data\car.data')
+    df = pd.read_csv('H:\RC\DeepLearning\DecisionTree\data\car.data')
     dataset = df.values.tolist()
     features = ['buying','maint','doors','persons','lug_boot','safety']
     return dataset, features
