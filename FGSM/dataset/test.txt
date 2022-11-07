@@ -1,0 +1,12 @@
+
+
+
+
+
+CUDA Available:  True
+EPS = 0 	Correct/Total : 9810/10000	Accuracy = 0.981
+EPS = 0.02 	Correct/Total : 1806/10000	Accuracy = 0.1806
+EPS = 0.04 	Correct/Total : 8/10000		Accuracy = 0.0008
+EPS = 0.06 	Correct/Total : 3/10000		Accuracy = 0.0003
+EPS = 0.08 	Correct/Total : 3/10000		Accuracy = 0.0003
+EPS = 0.1 	Correct/Total : 3/10000		Accuracy = 0.0003
